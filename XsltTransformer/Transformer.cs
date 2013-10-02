@@ -9,7 +9,7 @@ namespace XsltTransformer
 {
     public partial class Transformer : Form
     {
-        private const string RESULT_HTML = "result.html";
+        private string RESULT_HTML;
 
         public Transformer()
         {
@@ -20,6 +20,8 @@ namespace XsltTransformer
         {
             try
             {
+                RESULT_HTML = String.Format("result{0}.html", DateTime.Now.ToFileTime());
+
                 var xmlDocument = GetXmlFromForm();
 
                 var myXslTrans = GetTransformFromForm();
@@ -34,12 +36,12 @@ namespace XsltTransformer
             }
         }
 
-        private static void ShowHtml()
+        private void ShowHtml()
         {
             System.Diagnostics.Process.Start(RESULT_HTML);
         }
 
-        private static void TransformXml(XslCompiledTransform p_xslTrans, XmlDocument p_xmlDocument)
+        private void TransformXml(XslCompiledTransform p_xslTrans, XmlDocument p_xmlDocument)
         {
             XmlTextWriter myWriter = new XmlTextWriter(RESULT_HTML, null);
             p_xslTrans.Transform(p_xmlDocument, null, myWriter);
